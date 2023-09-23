@@ -7,4 +7,9 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\SimpleCalculator.Domain\SimpleCalculator.Domain.csproj" />
+    <ProjectReference Include="..\SimpleCalculator.Infrastructure\SimpleCalculator.Infrastructure.csproj" />
+  </ItemGroup>
+
 </Project>
