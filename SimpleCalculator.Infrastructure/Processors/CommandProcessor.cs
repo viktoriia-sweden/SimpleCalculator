@@ -1,6 +1,4 @@
 ﻿using SimpleCalculator.Domain.Enums;
-using SimpleCalculator.Domain.Names;
-using SimpleCalculator.Infrastructure.Handlers;
 using SimpleCalculator.Infrastructure.Repositories;
 using SimpleCalculator.Infrastructure.Validators;
 
@@ -22,7 +20,6 @@ namespace SimpleCalculator.Infrastructure.Processors
 				{
 					if (_commandValidator.Validate(commandType, args))
 					{
-						Console.ReadKey();
 					}
 				}
 				else if (commandType == CommandType.Print)
@@ -40,7 +37,7 @@ namespace SimpleCalculator.Infrastructure.Processors
 			}
 			else
 			{
-				if (Enum.TryParse<Operation>(args[1], true, out var operation))
+				if (args.Length >= 3 && Enum.TryParse<Operation>(args[1], true, out var operation))
 				{
 					if (_commandValidator.Validate(CommandType.Operation, args))
 					{

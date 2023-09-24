@@ -1,6 +1,4 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-
-using SimpleCalculator.Infrastructure.Handlers;
 using SimpleCalculator.Infrastructure.Processors;
 using SimpleCalculator.Infrastructure.Repositories;
 using SimpleCalculator.Infrastructure.Services;

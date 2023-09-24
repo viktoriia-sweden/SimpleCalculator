@@ -1,8 +1,7 @@
 ﻿using SimpleCalculator.Domain.Entities;
 using SimpleCalculator.Domain.Enums;
-using SimpleCalculator.Infrastructure.Validators;
 
-namespace SimpleCalculator
+namespace SimpleCalculator.Infrastructure.Validators
 {
 	public class CommandValidator : ICommandValidator
 	{
@@ -18,10 +17,9 @@ namespace SimpleCalculator
 
 				foreach (var index in rules.AlphaNumericArgsRules)
 				{
-					var operandResult = IsAlphaNumeric(args[index]);
-					if (!operandResult)
+					if (!IsAlphaNumeric(args[index]))
 					{
-						Console.WriteLine($"Argument {args[index]} is not alphanumeric for command '{commandType}'.");
+						Console.WriteLine($"Argument {args[index]} is not alphanumeric.");
 						return false;
 					}
 				}
@@ -30,17 +28,14 @@ namespace SimpleCalculator
 			return true;
 		}
 
-		public static bool IsAlphaNumeric(string str)
-		{
-			if (string.IsNullOrEmpty(str)) return false;
+		public static bool IsAlphaNumeric(string str) => !string.IsNullOrEmpty(str) && str.ToCharArray().All(c => char.IsLetter(c) || char.IsNumber(c));
 
-			return str.ToCharArray().All(c => char.IsLetter(c) || char.IsNumber(c));
-		}
-
-		private readonly Dictionary<CommandType, ValidationRules> commandRules = new Dictionary<CommandType, ValidationRules>
+		// It also can be a config, but for simplisity I put it here 
+		private readonly Dictionary<CommandType, CommandRules> commandRules = new ()
 		{
-			{CommandType.Quit, new ValidationRules { ArgsNumber = 1 }},
-			{CommandType.Print, new ValidationRules { ArgsNumber = 2, AlphaNumericArgsRules = new List<int> { 1 } } },
-			{CommandType.Operation, new ValidationRules { ArgsNumber = 3, AlphaNumericArgsRules = new List<int> { 0, 2} } } };
+			{CommandType.Quit, new CommandRules { ArgsNumber = 1 }},
+			{CommandType.Print, new CommandRules { ArgsNumber = 2, AlphaNumericArgsRules = new List<int> { 1 } } },
+			{CommandType.Operation, new CommandRules { ArgsNumber = 3, AlphaNumericArgsRules = new List<int> { 0, 2 } } }
+		};
 	}
 }

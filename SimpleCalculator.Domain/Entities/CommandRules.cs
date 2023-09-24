@@ -1,6 +1,6 @@
 ﻿namespace SimpleCalculator.Domain.Entities
 {
-	public class ValidationRules
+	public class CommandRules
 	{
 		public int ArgsNumber { get; set;} 
 

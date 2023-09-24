@@ -1,7 +1,6 @@
-﻿using SimpleCalculator.Infrastructure.Handlers;
-using SimpleCalculator.Infrastructure.Services;
+﻿using SimpleCalculator.Infrastructure.Processors;
 
-namespace SimpleCalculator
+namespace SimpleCalculator.Infrastructure.Services
 {
 	public class ConsoleService : ICommandService
 	{
@@ -15,12 +14,6 @@ namespace SimpleCalculator
 			while (true)
 			{
 				var input = Console.ReadLine();
-
-				if (string.IsNullOrEmpty(input))
-				{
-					Console.WriteLine("Please enter a valid command.");
-				}
-
 				var command = input!.Trim().ToLower().Split(" ");
 
 				_commandProcessor.Process(command);

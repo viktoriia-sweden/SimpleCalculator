@@ -1,4 +1,4 @@
-﻿using SimpleCalculator.Domain.Names;
+﻿using SimpleCalculator.Domain.Enums;
 using SimpleCalculator.Infrastructure.Repositories;
 
 namespace SimpleCalculator.Infrastructure.Processors

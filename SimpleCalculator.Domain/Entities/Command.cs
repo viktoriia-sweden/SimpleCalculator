@@ -1,4 +1,4 @@
-﻿using SimpleCalculator.Domain.Names;
+﻿using SimpleCalculator.Domain.Enums;
 
 namespace SimpleCalculator.Domain.Entities
 {

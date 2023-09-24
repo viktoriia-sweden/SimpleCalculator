@@ -1,8 +1,7 @@
-﻿namespace SimpleCalculator.Domain.Names
+﻿namespace SimpleCalculator.Domain.Enums
 {
 	public enum Operation
 	{
-		None,
 		Add,
 		Substract,
 		Multiply

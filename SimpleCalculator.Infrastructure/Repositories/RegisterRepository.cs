@@ -1,7 +1,6 @@
 ﻿using SimpleCalculator.Domain.Entities;
-using SimpleCalculator.Infrastructure.Repositories;
 
-namespace SimpleCalculator
+namespace SimpleCalculator.Infrastructure.Repositories
 {
 	public class RegisterRepository : IRegisterRepository
 	{
@@ -41,6 +40,6 @@ namespace SimpleCalculator
 		}
 
 
-		private readonly Dictionary<string, RegisterInfo> registersInfo = new ();
+		private readonly Dictionary<string, RegisterInfo> registersInfo = new();
 	}
 }

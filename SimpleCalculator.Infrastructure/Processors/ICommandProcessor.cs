@@ -1,4 +1,4 @@
-﻿namespace SimpleCalculator.Infrastructure.Handlers
+﻿namespace SimpleCalculator.Infrastructure.Processors
 {
 	public interface ICommandProcessor
 	{
