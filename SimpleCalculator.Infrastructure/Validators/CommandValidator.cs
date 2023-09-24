@@ -16,16 +16,13 @@ namespace SimpleCalculator
 					return false;
 				}
 
-				foreach (var rule in rules.Rules)
+				foreach (var index in rules.AlphaNumericArgsRules)
 				{
-					if (rule.Item2 == OperandRules.Alphanumeric)
+					var operandResult = IsAlphaNumeric(args[index]);
+					if (!operandResult)
 					{
-						var operandResult = IsAlphaNumeric(args[rule.Item1]);
-						if (!operandResult)
-						{
-							Console.WriteLine($"Argument {args[rule.Item1]} is not alphanumeric for command '{commandType}'.");
-							return false;
-						}
+						Console.WriteLine($"Argument {args[index]} is not alphanumeric for command '{commandType}'.");
+						return false;
 					}
 				}
 			}
@@ -43,8 +40,7 @@ namespace SimpleCalculator
 		private readonly Dictionary<CommandType, ValidationRules> commandRules = new Dictionary<CommandType, ValidationRules>
 		{
 			{CommandType.Quit, new ValidationRules { ArgsNumber = 1 }},
-			{CommandType.Print, new ValidationRules { ArgsNumber = 2, Rules = new List<(int, OperandRules)> { (1, OperandRules.Alphanumeric) }}},
-			{CommandType.Operation, new ValidationRules { ArgsNumber = 3, Rules = new List<(int, OperandRules)> { (0, OperandRules.Alphanumeric), (2, OperandRules.Alphanumeric) }}},
-		};
+			{CommandType.Print, new ValidationRules { ArgsNumber = 2, AlphaNumericArgsRules = new List<int> { 1 } } },
+			{CommandType.Operation, new ValidationRules { ArgsNumber = 3, AlphaNumericArgsRules = new List<int> { 0, 2} } } };
 	}
 }

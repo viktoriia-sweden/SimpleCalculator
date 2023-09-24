@@ -8,11 +8,11 @@ namespace SimpleCalculator.Infrastructure.Processors
 	{
 		public OperationProcessor(IRegisterRepository registerRepository)
 		{
-			this.registerRepository = registerRepository;
+			_registerRepository = registerRepository;
 		}
 
-		public void Process(string register, Operation operation, string operand) => this.registerRepository.AddCommand(register, new Command { Operation = operation, Operand = operand });
+		public void Process(string register, Operation operation, string operand) => _registerRepository.AddCommand(register, new Command { Operation = operation, Operand = operand });
 
-		private readonly IRegisterRepository registerRepository;
+		private readonly IRegisterRepository _registerRepository;
 	}
 }
