@@ -1,5 +1,5 @@
 ﻿using SimpleCalculator.Domain.Enums;
-using SimpleCalculator.Domain.Neumes;
+using SimpleCalculator.Domain.Names;
 using SimpleCalculator.Infrastructure.Handlers;
 using SimpleCalculator.Infrastructure.Repositories;
 using SimpleCalculator.Infrastructure.Validators;

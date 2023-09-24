@@ -1,4 +1,4 @@
-﻿namespace SimpleCalculator.Domain.Neumes
+﻿namespace SimpleCalculator.Domain.Names
 {
 	public enum Operation
 	{

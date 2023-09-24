@@ -1,5 +1,5 @@
 ﻿using SimpleCalculator.Domain.Entities;
-using SimpleCalculator.Domain.Neumes;
+using SimpleCalculator.Domain.Names;
 using SimpleCalculator.Infrastructure.Repositories;
 
 namespace SimpleCalculator.Infrastructure.Processors
