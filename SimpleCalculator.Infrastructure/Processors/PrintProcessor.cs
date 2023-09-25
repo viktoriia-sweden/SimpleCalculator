@@ -16,27 +16,27 @@ namespace SimpleCalculator.Infrastructure.Processors
 			Console.WriteLine(value);
 		}
 
-		private int Calculate(string register)
+		private long Calculate(string register)
 		{
 			while (_registerRepository.GetCommandsCount(register) > 0)
 			{
 				var command = _registerRepository.GetCommand(register);
 				var registerValue = _registerRepository.Get(register);
 
-				if (int.TryParse(command.Operand, out var operandValue))
+				if (long.TryParse(command.Operand, out var operandValue))
 				{
-					_registerRepository.Save(register, Calculate(registerValue, command.Operation, operandValue));
+					_registerRepository.Save(register, ApplyOperation(registerValue, command.Operation, operandValue));
 				}
 				else
 				{
-					_registerRepository.Save(register, Calculate(registerValue, command.Operation, Calculate(command.Operand)));
+					_registerRepository.Save(register, ApplyOperation(registerValue, command.Operation, Calculate(command.Operand)));
 				}
 			}
 
 			return _registerRepository.Get(register);
 		}
 
-		private static int Calculate(int registerValue, Operation operation, int value) => operation switch
+		private static long ApplyOperation(long registerValue, Operation operation, long value) => operation switch
 		{
 			Operation.Add => registerValue + value,
 			Operation.Substract => registerValue - value,

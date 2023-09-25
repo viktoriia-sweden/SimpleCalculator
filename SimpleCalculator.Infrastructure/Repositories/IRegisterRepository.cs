@@ -4,9 +4,9 @@ namespace SimpleCalculator.Infrastructure.Repositories
 {
 	public interface IRegisterRepository
 	{
-		public void Save(string register, int value);
+		public void Save(string register, long value);
 
-		public int Get(string register);
+		public long Get(string register);
 
 		public void AddCommand(string register, Command command);
 

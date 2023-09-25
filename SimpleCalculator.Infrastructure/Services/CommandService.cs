@@ -18,32 +18,25 @@ namespace SimpleCalculator.Infrastructure.Services
 		{
 			if (args.Length > 0)
 			{
-				var fileName = args[0];
-
-				using var sr = new StreamReader(fileName);
-				var line = sr.ReadLine();
-				while (line != null)
+				using var sr = new StreamReader(args[0]);
+				var command = GetCommand(sr.ReadLine());
+				while (!_commandProcessor.IsQuit && command != null)
 				{
-					var command = line?.Trim().Trim('\n').ToLower().Split(" ");
-
 					Process(command);
-					if (_commandProcessor.IsQuit) break;
-
-					line = sr.ReadLine();
+					command = GetCommand(sr.ReadLine());
 				}
 			}
 			else
 			{
-				while (true)
+				while (!_commandProcessor.IsQuit)
 				{
-					var input = Console.ReadLine();
-					var command = input?.Trim().ToLower().Split(" ");
-
+					var command = GetCommand(Console.ReadLine());
 					Process(command);
-					if (_commandProcessor.IsQuit) break;
 				}
 			}
 		}
+
+		private static string[]? GetCommand(string? str) => str?.Trim().Trim('\n').ToLower().Split(" ");
 
 		private void Process(string[]? command)
 		{

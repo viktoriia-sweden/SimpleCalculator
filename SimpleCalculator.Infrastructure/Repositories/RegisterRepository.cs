@@ -4,7 +4,7 @@ namespace SimpleCalculator.Infrastructure.Repositories
 {
 	public class RegisterRepository : IRegisterRepository
 	{
-		public void Save(string register, int value)
+		public void Save(string register, long value)
 		{
 			if (!registersInfo.ContainsKey(register))
 			{
@@ -14,7 +14,7 @@ namespace SimpleCalculator.Infrastructure.Repositories
 			registersInfo[register].CurrentValue = value;
 		}
 
-		public int Get(string register)
+		public long Get(string register)
 		{
 			return registersInfo[register].CurrentValue;
 		}
