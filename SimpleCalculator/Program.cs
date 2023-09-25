@@ -12,7 +12,7 @@ namespace SimpleCalculator
 		{
 			var serviceProvider = new ServiceCollection()
 				.AddSingleton<IRegisterRepository, RegisterRepository>()
-				.AddSingleton<ICommandProcessor, CommandProcessor>()
+				.AddSingleton<ICommandResolver, CommandResolver>()
 				.AddSingleton<ICommandValidator, CommandValidator>()
 				.AddSingleton<ICommandService, ConsoleService>()
 				.BuildServiceProvider();

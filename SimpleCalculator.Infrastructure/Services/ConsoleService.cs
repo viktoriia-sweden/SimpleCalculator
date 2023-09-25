@@ -1,11 +1,13 @@
 ﻿using SimpleCalculator.Infrastructure.Processors;
+using SimpleCalculator.Infrastructure.Validators;
 
 namespace SimpleCalculator.Infrastructure.Services
 {
 	public class ConsoleService : ICommandService
 	{
-		public ConsoleService(ICommandProcessor commandProcessor)
+		public ConsoleService(ICommandValidator commandValidator, ICommandResolver commandProcessor)
 		{
+			_commandValidator = commandValidator;
 			_commandProcessor = commandProcessor;
 		}
 
@@ -14,12 +16,17 @@ namespace SimpleCalculator.Infrastructure.Services
 			while (true)
 			{
 				var input = Console.ReadLine();
-				var command = input!.Trim().ToLower().Split(" ");
+				var command = input?.Trim().ToLower().Split(" ");
 
-				_commandProcessor.Process(command);
+				if (_commandValidator.IsValid(command))
+				{
+					_commandProcessor.Process(command!);
+					if (_commandProcessor.IsQuit) break;
+				}
 			}
 		}
 
-		private readonly ICommandProcessor _commandProcessor;
+		private readonly ICommandValidator _commandValidator;
+		private readonly ICommandResolver _commandProcessor;
 	}
 }

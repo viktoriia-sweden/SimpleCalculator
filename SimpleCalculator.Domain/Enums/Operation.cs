@@ -4,6 +4,6 @@
 	{
 		Add,
 		Substract,
-		Multiply
+		Multiply,
 	}
 }
