@@ -2,6 +2,6 @@
 {
 	public interface ICommandService
 	{
-		public void Run();
+		public void Run(string[] args);
 	}
 }

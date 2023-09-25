@@ -1,4 +1,4 @@
-﻿namespace SimpleCalculator.Infrastructure.Processors
+﻿namespace SimpleCalculator.Infrastructure.Services
 {
 	public interface ICommandResolver
 	{

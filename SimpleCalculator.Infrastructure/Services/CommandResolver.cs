@@ -1,7 +1,8 @@
 ﻿using SimpleCalculator.Domain.Enums;
+using SimpleCalculator.Infrastructure.Processors;
 using SimpleCalculator.Infrastructure.Repositories;
 
-namespace SimpleCalculator.Infrastructure.Processors
+namespace SimpleCalculator.Infrastructure.Services
 {
 	public class CommandResolver : ICommandResolver
 	{

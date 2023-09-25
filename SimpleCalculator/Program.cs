@@ -1,5 +1,4 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using SimpleCalculator.Infrastructure.Processors;
 using SimpleCalculator.Infrastructure.Repositories;
 using SimpleCalculator.Infrastructure.Services;
 using SimpleCalculator.Infrastructure.Validators;
@@ -14,11 +13,11 @@ namespace SimpleCalculator
 				.AddSingleton<IRegisterRepository, RegisterRepository>()
 				.AddSingleton<ICommandResolver, CommandResolver>()
 				.AddSingleton<ICommandValidator, CommandValidator>()
-				.AddSingleton<ICommandService, ConsoleService>()
+				.AddSingleton<ICommandService, CommandService>()
 				.BuildServiceProvider();
 
 			var commandService = serviceProvider.GetService<ICommandService>();
-			commandService!.Run();
+			commandService!.Run(args);
 		}
 	}
 }

@@ -28,6 +28,8 @@ namespace SimpleCalculator.Infrastructure.Validators
 					Console.WriteLine($"Argument {args[2]} should be alphanumeric register or integer value.");
 					return false;
 				}
+
+				return true;
 			}
 
 			Console.WriteLine($"Invalid command {string.Join(",", args)}. Please check ReadMe file for allowed commands.");
