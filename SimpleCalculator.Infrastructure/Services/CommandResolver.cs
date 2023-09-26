@@ -11,13 +11,15 @@ namespace SimpleCalculator.Infrastructure.Services
 			_registerRepository = registerRepository;
 		}
 
+		public bool IsQuit { get; private set; }
+
 		public void Process(string[] args)
 		{
 			if (Enum.TryParse<CommandType>(args[0], true, out var commandType))
 			{
 				if (commandType == CommandType.Quit)
 				{
-					_isQuit = true;
+					IsQuit = true;
 				}
 				if (commandType == CommandType.Print)
 				{
@@ -39,9 +41,6 @@ namespace SimpleCalculator.Infrastructure.Services
 			}
 		}
 
-		public bool IsQuit() => _isQuit;
-
-		private bool _isQuit = false;
 		private readonly IRegisterRepository _registerRepository;
 	}
 }

@@ -39,7 +39,6 @@ namespace SimpleCalculator.Infrastructure.Repositories
 			return registersInfo[register].Commands.Count;
 		}
 
-
 		private readonly Dictionary<string, RegisterInfo> registersInfo = new();
 	}
 }

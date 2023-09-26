@@ -2,8 +2,8 @@
 {
 	public interface ICommandResolver
 	{
-		public void Process(string[] args);
+		public bool IsQuit { get; }
 
-		public bool IsQuit();
+		public void Process(string[] args);
 	}
 }
