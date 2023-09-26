@@ -20,7 +20,7 @@ namespace SimpleCalculator.Infrastructure.Services
 			{
 				using var sr = new StreamReader(args[0]);
 				var command = GetCommand(sr.ReadLine());
-				while (!_commandProcessor.IsQuit && command != null)
+				while (!_commandProcessor.IsQuit() && command != null)
 				{
 					Process(command);
 					command = GetCommand(sr.ReadLine());
@@ -28,15 +28,13 @@ namespace SimpleCalculator.Infrastructure.Services
 			}
 			else
 			{
-				while (!_commandProcessor.IsQuit)
+				while (!_commandProcessor.IsQuit())
 				{
 					var command = GetCommand(Console.ReadLine());
 					Process(command);
 				}
 			}
 		}
-
-		private static string[]? GetCommand(string? str) => str?.Trim().Trim('\n').ToLower().Split(" ");
 
 		private void Process(string[]? command)
 		{
@@ -45,6 +43,7 @@ namespace SimpleCalculator.Infrastructure.Services
 				_commandProcessor.Process(command!);
 			}
 		}
+		private static string[]? GetCommand(string? str) => str?.Trim().Trim('\n').ToLower().Split(" ");
 
 		private readonly ICommandValidator _commandValidator;
 		private readonly ICommandResolver _commandProcessor;
