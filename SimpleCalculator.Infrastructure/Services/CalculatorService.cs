@@ -1,12 +1,15 @@
-﻿using SimpleCalculator.Infrastructure.Processors;
+﻿using Microsoft.Extensions.Logging;
+
+using SimpleCalculator.Infrastructure.Processors;
 
 namespace SimpleCalculator.Infrastructure.Services
 {
-    public class CalculatorService : ICalculatorService
+	public class CalculatorService : ICalculatorService
 	{
-		public CalculatorService(ICalculatorProcessor processor)
+		public CalculatorService(ICalculatorProcessor processor, ILogger<CalculatorService> logger)
 		{
 			_processor = processor;
+			_logger = logger;
 		}
 
 		public void Run(string[] args)
@@ -20,7 +23,7 @@ namespace SimpleCalculator.Infrastructure.Services
 				}
 				else
 				{
-					Console.WriteLine($"[Warning].Provided file {file} was not found. Program is opened in \"Console\" mode.");
+					_logger.LogWarning($"Provided file {file} was not found. Program is opened in \"Console\" mode.");
 					_processor.ProcessConsole();
 				}
 			}
@@ -31,5 +34,6 @@ namespace SimpleCalculator.Infrastructure.Services
 		}
 
 		private readonly ICalculatorProcessor _processor;
+		private readonly ILogger<CalculatorService> _logger;
 	}
 }

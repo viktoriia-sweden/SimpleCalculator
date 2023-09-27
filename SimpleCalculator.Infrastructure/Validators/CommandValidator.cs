@@ -1,15 +1,21 @@
-﻿using SimpleCalculator.Domain.Entities;
+﻿using Microsoft.Extensions.Logging;
+
+using SimpleCalculator.Domain.Entities;
 using SimpleCalculator.Domain.Enums;
 
 namespace SimpleCalculator.Infrastructure.Validators
 {
 	public class CommandValidator : ICommandValidator
 	{
+		public CommandValidator(ILogger<CommandValidator> logger) {
+			_logger = logger;
+		}
+
 		public bool IsValid(string[]? args)
 		{
 			if (args == null)
 			{
-				Console.WriteLine("[Error]. Please enter not null command.");
+				_logger.LogError("Please enter not null command.");
 				return false;
 			}
 
@@ -19,20 +25,20 @@ namespace SimpleCalculator.Infrastructure.Validators
 			{
 				if (!IsAlphaNumeric(args[0]))
 				{
-					Console.WriteLine($"[Error]. Argument {args[0]} is not alphanumeric.");
+					_logger.LogError($"Argument {args[0]} is not alphanumeric.");
 					return false;
 				}
 
 				if (!(IsAlphaNumeric(args[2]) || long.TryParse(args[2], out var _)))
 				{
-					Console.WriteLine($"[Error]. Argument {args[2]} should be alphanumeric register or integer value.");
+					_logger.LogError($"Argument {args[2]} should be alphanumeric register or integer value.");
 					return false;
 				}
 
 				return true;
 			}
 
-			Console.WriteLine($"[Error]. Invalid command {string.Join(",", args)}. Please check ReadMe file for allowed commands.");
+			_logger.LogError($"Invalid command {string.Join(",", args)}. Please check ReadMe file for allowed commands.");
 			return false;
 		}
 
@@ -48,7 +54,7 @@ namespace SimpleCalculator.Infrastructure.Validators
 			{
 				if (rules.ArgsNumber != args.Length)
 				{
-					Console.WriteLine($"[Error]. Incorrect arguments number for command '{commandType}'.");
+					_logger.LogError($"Incorrect arguments number for command '{commandType}'.");
 					return false;
 				}
 
@@ -56,7 +62,7 @@ namespace SimpleCalculator.Infrastructure.Validators
 				{
 					if (!IsAlphaNumeric(args[index]))
 					{
-						Console.WriteLine($"[Error]. Argument {args[index]} is not alphanumeric.");
+						_logger.LogError($"Argument {args[index]} is not alphanumeric.");
 						return false;
 					}
 				}
@@ -73,5 +79,6 @@ namespace SimpleCalculator.Infrastructure.Validators
 			{CommandType.Quit, new CommandRules { ArgsNumber = 1 }},
 			{CommandType.Print, new CommandRules { ArgsNumber = 2, AlphaNumericArgsRules = new List<int> { 1 } } },
 		};
+		private readonly ILogger<CommandValidator> _logger;
 	}
 }

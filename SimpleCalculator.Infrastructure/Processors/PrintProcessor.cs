@@ -1,19 +1,21 @@
 ﻿using SimpleCalculator.Domain.Enums;
 using SimpleCalculator.Infrastructure.Repositories;
+using SimpleCalculator.Infrastructure.Services;
 
 namespace SimpleCalculator.Infrastructure.Processors
 {
 	public class PrintProcessor : ICommandProcessor
 	{
-		public PrintProcessor(IRegisterRepository registerRepository)
+		public PrintProcessor(IRegisterRepository registerRepository, IConsoleService consoleService)
 		{
 			_registerRepository = registerRepository;
+			_consoleService = consoleService;
 		}
 
 		public void Process(string[] command)
 		{
 			var value = Calculate(command[1]);
-			Console.WriteLine(value);
+			_consoleService.Write(value);
 		}
 
 		private long Calculate(string register)
@@ -54,5 +56,6 @@ namespace SimpleCalculator.Infrastructure.Processors
 		private readonly HashSet<string> checkedRegisters = new ();
 
 		private readonly IRegisterRepository _registerRepository;
+		private readonly IConsoleService _consoleService;
 	}
 }

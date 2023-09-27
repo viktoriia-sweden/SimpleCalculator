@@ -6,9 +6,10 @@ namespace SimpleCalculator.Infrastructure.Services
 {
 	public class CommandResolver : ICommandResolver
 	{
-		public CommandResolver(IRegisterRepository registerRepository)
+		public CommandResolver(IRegisterRepository registerRepository, IConsoleService consoleService)
 		{
 			_registerRepository = registerRepository;
+			_consoleService = consoleService;
 		}
 
 		public bool IsQuit { get; private set; }
@@ -19,7 +20,7 @@ namespace SimpleCalculator.Infrastructure.Services
 			{
 				if (commandType == CommandType.Print)
 				{
-					return new PrintProcessor(_registerRepository);
+					return new PrintProcessor(_registerRepository, _consoleService);
 				}
 				else if (commandType == CommandType.Quit)
 				{
@@ -46,5 +47,6 @@ namespace SimpleCalculator.Infrastructure.Services
 
 		private const int operationCommandArgsCount = 3;
 		private readonly IRegisterRepository _registerRepository;
+		private readonly IConsoleService _consoleService;
 	}
 }

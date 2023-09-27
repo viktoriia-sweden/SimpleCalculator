@@ -1,4 +1,6 @@
-﻿using SimpleCalculator.Infrastructure.Services;
+﻿using Microsoft.Extensions.Logging;
+
+using SimpleCalculator.Infrastructure.Services;
 using SimpleCalculator.Infrastructure.Validators;
 
 namespace SimpleCalculator.Infrastructure.Processors
@@ -8,30 +10,34 @@ namespace SimpleCalculator.Infrastructure.Processors
 		public CalculatorProcessor
 		(
 			ICommandValidator commandValidator,
-			ICommandResolver commandResolver
+			ICommandResolver commandResolver,
+			IConsoleService consoleService,
+			ILogger<CalculatorProcessor> logger
 		)
 		{
 			_commandValidator = commandValidator;
 			_commandResolver = commandResolver;
+			_consoleService = consoleService;
+			_logger = logger;
 		}
 
 		public void ProcessConsole()
 		{
-			Console.WriteLine($"[Information]. Program is opened in \"Console\" mode.");
-			Console.WriteLine("[Information]. Please enter a command.");
+			_logger.LogInformation($"Program is opened in \"Console\" mode.");
+			_logger.LogInformation("Please enter a command.");
 
 			while (!_commandResolver.IsQuit)
 			{
-				Process(Console.ReadLine());
+				Process(_consoleService.Read());
 			}
 
-			Console.WriteLine("[Information]. Command \"quit\" was called. Exit.");
+			_logger.LogInformation("Command \"quit\" was called. Exit.");
 		}
 
 		public void ProcessFile(string fileName)
 		{
-			Console.WriteLine($"[Information]. Program is opened in \"File\" mode.");
-			Console.WriteLine("[Information]. Reading from file...");
+			_logger.LogInformation($"Program is opened in \"File\" mode.");
+			_logger.LogInformation("Reading from file...");
 
 			using var sr = new StreamReader(fileName);
 
@@ -41,7 +47,7 @@ namespace SimpleCalculator.Infrastructure.Processors
 				Process(line);
 			}
 
-			Console.WriteLine("[Information]. The file was read or command \"quit\" was called. Exit.");
+			_logger.LogInformation("The file was read or command \"quit\" was called. Exit.");
 		}
 
 		private void Process(string? line)
@@ -57,7 +63,9 @@ namespace SimpleCalculator.Infrastructure.Processors
 
 		private static string[]? GetCommand(string? str) => str?.Trim().Trim('\n').ToLower().Split(" ");
 
+		private readonly ILogger<CalculatorProcessor> _logger;
 		private readonly ICommandValidator _commandValidator;
 		private readonly ICommandResolver _commandResolver;
+		private readonly IConsoleService _consoleService;
 	}
 }

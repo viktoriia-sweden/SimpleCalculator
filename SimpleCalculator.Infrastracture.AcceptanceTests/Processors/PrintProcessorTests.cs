@@ -3,6 +3,7 @@ using AutoFixture;
 using SimpleCalculator.Infrastructure.Processors;
 using SimpleCalculator.Infrastructure.Repositories;
 using FluentAssertions;
+using SimpleCalculator.Infrastructure.Services;
 
 namespace SimpleCalculator.Infrastracture.Tests.Processors
 {
@@ -13,7 +14,8 @@ namespace SimpleCalculator.Infrastracture.Tests.Processors
 		{
 			_fixture = new Fixture();
 			_repository = new RegisterRepository();
-			_processor = new PrintProcessor(_repository);
+			_consoleService = new ConsoleService();
+			_processor = new PrintProcessor(_repository, _consoleService);
 		}
 
 		[TestMethod]
@@ -118,6 +120,7 @@ namespace SimpleCalculator.Infrastracture.Tests.Processors
 
 		private readonly Fixture _fixture;
 		private readonly RegisterRepository _repository;
+		private readonly ConsoleService _consoleService;
 		private readonly PrintProcessor _processor;
 	}
 }
