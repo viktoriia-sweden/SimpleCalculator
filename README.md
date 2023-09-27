@@ -1,6 +1,6 @@
 # SimpleCalculator
 A simple calculator allows users do simple operations: add, subtract and multiply values in set of registers. Registers are also supported as values with lazy evaluation.
-Circular dependencies are not allowed. 
+Circular dependencies are not allowed, if it happens, the program will be terminated. 
 
 ## Run
 
@@ -20,7 +20,7 @@ Performs a given operation with given value on given register.
 <register> <operation> <value>
 ```
 
-Evaluates and prints the value of the register. Numbers will be considered as a name of register. If register was not setup, it will returns 0.
+Evaluates and prints the value of the register. Numbers will be considered as a name of register. If register is not setup, it will returns 0.
 ```
 print <register>
 ```
@@ -87,7 +87,7 @@ print a
 ```
 Output
 ```
-Error
+Error. Program is terminated.
 ```
 
 Example 4. Invalid Operation. Command was not processed.
@@ -98,7 +98,7 @@ print a
 ```
 Output
 ```
-Error
+Error. Program continues to work.
 ```
 
 
