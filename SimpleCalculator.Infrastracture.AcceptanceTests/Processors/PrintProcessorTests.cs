@@ -116,8 +116,8 @@ namespace SimpleCalculator.Infrastracture.Tests.Processors
 			}
 		}
 
-		private Fixture _fixture;
-		private RegisterRepository _repository;
-		private PrintProcessor _processor;
+		private readonly Fixture _fixture;
+		private readonly RegisterRepository _repository;
+		private readonly PrintProcessor _processor;
 	}
 }

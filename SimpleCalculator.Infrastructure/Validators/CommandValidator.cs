@@ -9,7 +9,7 @@ namespace SimpleCalculator.Infrastructure.Validators
 		{
 			if (args == null)
 			{
-				Console.WriteLine("Please enter not null command.");
+				Console.WriteLine("[Error]. Please enter not null command.");
 				return false;
 			}
 
@@ -19,20 +19,20 @@ namespace SimpleCalculator.Infrastructure.Validators
 			{
 				if (!IsAlphaNumeric(args[0]))
 				{
-					Console.WriteLine($"Argument {args[0]} is not alphanumeric.");
+					Console.WriteLine($"[Error]. Argument {args[0]} is not alphanumeric.");
 					return false;
 				}
 
 				if (!(IsAlphaNumeric(args[2]) || long.TryParse(args[2], out var _)))
 				{
-					Console.WriteLine($"Argument {args[2]} should be alphanumeric register or integer value.");
+					Console.WriteLine($"[Error]. Argument {args[2]} should be alphanumeric register or integer value.");
 					return false;
 				}
 
 				return true;
 			}
 
-			Console.WriteLine($"Invalid command {string.Join(",", args)}. Please check ReadMe file for allowed commands.");
+			Console.WriteLine($"[Error]. Invalid command {string.Join(",", args)}. Please check ReadMe file for allowed commands.");
 			return false;
 		}
 
@@ -48,7 +48,7 @@ namespace SimpleCalculator.Infrastructure.Validators
 			{
 				if (rules.ArgsNumber != args.Length)
 				{
-					Console.WriteLine($"Incorrect arguments number for command '{commandType}'.");
+					Console.WriteLine($"[Error]. Incorrect arguments number for command '{commandType}'.");
 					return false;
 				}
 
@@ -56,7 +56,7 @@ namespace SimpleCalculator.Infrastructure.Validators
 				{
 					if (!IsAlphaNumeric(args[index]))
 					{
-						Console.WriteLine($"Argument {args[index]} is not alphanumeric.");
+						Console.WriteLine($"[Error]. Argument {args[index]} is not alphanumeric.");
 						return false;
 					}
 				}
