@@ -16,7 +16,7 @@ namespace SimpleCalculator.Infrastructure.Repositories
 
 		public long Get(string register)
 		{
-			return registersInfo[register].CurrentValue;
+			return registersInfo.ContainsKey(register) ? registersInfo[register].CurrentValue : 0;
 		}
 
 		public void AddCommand(string register, Command command)
@@ -36,7 +36,7 @@ namespace SimpleCalculator.Infrastructure.Repositories
 
 		public int GetCommandsCount(string register)
 		{
-			return registersInfo[register].Commands.Count;
+			return registersInfo.ContainsKey(register) ? registersInfo[register].Commands.Count : 0;
 		}
 
 		private readonly Dictionary<string, RegisterInfo> registersInfo = new();

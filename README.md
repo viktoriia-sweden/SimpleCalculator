@@ -28,7 +28,7 @@ Performs a given operation with given value on given register.
 ```
 
 ### Print
-Evaluates and prints the value of the register. Numbers will be considered as a name of register. If register was not setup, it will returns 0 and warning message.
+Evaluates and prints the value of the register. Numbers will be considered as a name of register. If register was not setup, it will returns 0.
 ```
 print <register>
 ```
