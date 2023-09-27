@@ -39,7 +39,7 @@ namespace SimpleCalculator.Infrastructure.Processors
 		private static long ApplyOperation(long registerValue, Operation operation, long value) => operation switch
 		{
 			Operation.Add => registerValue + value,
-			Operation.Substract => registerValue - value,
+			Operation.Subtract => registerValue - value,
 			Operation.Multiply => registerValue * value,
 			_ => throw new ArgumentOutOfRangeException(nameof(operation), $"Invalid operation: {operation}"),
 		};

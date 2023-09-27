@@ -33,7 +33,7 @@ namespace SimpleCalculator.Infrastructure.Services
 			}
 			else
 			{
-				if (args.Length == 3 && Enum.TryParse<Operation>(args[1], true, out var operation))
+				if (args.Length == operationCommandArgsCount && Enum.TryParse<Operation>(args[1], true, out var _))
 				{
 					return new OperationProcessor(_registerRepository);
 				}
@@ -44,6 +44,7 @@ namespace SimpleCalculator.Infrastructure.Services
 			}
 		}
 
+		private const int operationCommandArgsCount = 3;
 		private readonly IRegisterRepository _registerRepository;
 	}
 }

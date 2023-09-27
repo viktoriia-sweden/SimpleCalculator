@@ -13,7 +13,16 @@ namespace SimpleCalculator.Infrastructure.Services
 		{
 			if (args.Length > 0)
 			{
-				_processor.ProcessFile(args[0]);
+				var file = args[0].Trim().ToLower();
+				if (File.Exists(file))
+				{
+					_processor.ProcessFile(file);
+				}
+				else
+				{
+					Console.WriteLine($"[Warning].Provided file {file} was not found. Program is opened in \"Console\" mode.");
+					_processor.ProcessConsole();
+				}
 			}
 			else
 			{

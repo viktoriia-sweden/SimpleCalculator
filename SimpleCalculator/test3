@@ -1,0 +1,11 @@
+cost add iphone15
+cost add iphone15Pro
+iphone15 add 12999
+iphone15 multiply 2
+iphone15Pro add 14999
+iphone15Pro multiply 2
+print cost
+IphoneExchange add 1000
+cost subtract IphoneExchange
+print cost
+QUIT

@@ -3,51 +3,61 @@ using SimpleCalculator.Infrastructure.Validators;
 
 namespace SimpleCalculator.Infrastructure.Processors
 {
-    public class CalculatorProcessor : ICalculatorProcessor
-    {
-        public CalculatorProcessor
-        (
-            ICommandValidator commandValidator,
-            ICommandResolver commandResolver
-        )
-        {
-            _commandValidator = commandValidator;
-            _commandResolver = commandResolver;
-        }
+	public class CalculatorProcessor : ICalculatorProcessor
+	{
+		public CalculatorProcessor
+		(
+			ICommandValidator commandValidator,
+			ICommandResolver commandResolver
+		)
+		{
+			_commandValidator = commandValidator;
+			_commandResolver = commandResolver;
+		}
 
-        public void ProcessConsole()
-        {
-            while (!_commandResolver.IsQuit)
-            {
-                Process(Console.ReadLine());
-            }
-        }
+		public void ProcessConsole()
+		{
+			Console.WriteLine($"[Information]. Program is opened in \"Console\" mode.");
+			Console.WriteLine("[Information]. Please enter a command.");
 
-        public void ProcessFile(string fileName)
-        {
-            using var sr = new StreamReader(fileName);
+			while (!_commandResolver.IsQuit)
+			{
+				Process(Console.ReadLine());
+			}
 
-            string? line;
-            while (!_commandResolver.IsQuit && (line = sr.ReadLine()) != null)
-            {
-                Process(line);
-            }
-        }
+			Console.WriteLine("[Information]. Command \"quit\" was called. Exit.");
+		}
 
-        private void Process(string? line)
-        {
-            var command = GetCommand(line);
+		public void ProcessFile(string fileName)
+		{
+			Console.WriteLine($"[Information]. Program is opened in \"File\" mode.");
+			Console.WriteLine("[Information]. Reading from file...");
 
-            if (_commandValidator.IsValid(command))
-            {
-                var process = _commandResolver.Process(command!);
-                process.Process(command!);
-            }
-        }
+			using var sr = new StreamReader(fileName);
 
-        private static string[]? GetCommand(string? str) => str?.Trim().Trim('\n').ToLower().Split(" ");
+			string? line;
+			while (!_commandResolver.IsQuit && (line = sr.ReadLine()) != null)
+			{
+				Process(line);
+			}
 
-        private readonly ICommandValidator _commandValidator;
-        private readonly ICommandResolver _commandResolver;
-    }
+			Console.WriteLine("[Information]. The file was read or command \"quit\" was called. Exit.");
+		}
+
+		private void Process(string? line)
+		{
+			var command = GetCommand(line);
+
+			if (_commandValidator.IsValid(command))
+			{
+				var process = _commandResolver.Process(command!);
+				process.Process(command!);
+			}
+		}
+
+		private static string[]? GetCommand(string? str) => str?.Trim().Trim('\n').ToLower().Split(" ");
+
+		private readonly ICommandValidator _commandValidator;
+		private readonly ICommandResolver _commandResolver;
+	}
 }
