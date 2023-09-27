@@ -20,10 +20,9 @@ namespace SimpleCalculator.Infrastructure.Processors
 		{
 			if (checkedRegisters.Contains(register))
 			{
-				throw new InvalidOperationException();
+				throw new InvalidOperationException($"[Error]. Program cannot evaluate {register} due to cyclic dependancy");
 			}
 
-			checkedRegisters.Add(register);
 			while (_registerRepository.GetCommandsCount(register) > 0)
 			{
 				var command = _registerRepository.GetCommand(register);
@@ -35,10 +34,12 @@ namespace SimpleCalculator.Infrastructure.Processors
 				}
 				else
 				{
+					checkedRegisters.Add(register);
 					_registerRepository.Save(register, ApplyOperation(registerValue, command.Operation, Calculate(command.Operand)));
 				}
 			}
 
+			checkedRegisters.Remove(register);
 			return _registerRepository.Get(register);
 		}
 
