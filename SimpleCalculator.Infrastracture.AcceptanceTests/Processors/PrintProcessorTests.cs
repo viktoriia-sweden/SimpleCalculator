@@ -98,7 +98,7 @@ namespace SimpleCalculator.Infrastracture.Tests.Processors
 		}
 
 		[TestMethod]
-		public void TestLazyEvaluation_CyclicDependancy()
+		public void TestLazyEvaluation_CircularDependency()
 		{
 			// arrange
 			var register = _fixture.Create<string>();
@@ -114,7 +114,7 @@ namespace SimpleCalculator.Infrastracture.Tests.Processors
 			catch (InvalidOperationException ex)
 			{
 				// assert
-				ex.Message.Should().Be($"[Error]. Program cannot evaluate {register} due to cyclic dependancy");
+				ex.Message.Should().Be($"Program cannot evaluate register '{register}' due to circular dependency.");
 			}
 		}
 

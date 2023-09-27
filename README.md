@@ -1,6 +1,6 @@
 # SimpleCalculator
-A simple calculator allows users do simple operations: add, subtract and multiply values in set of registers. Registers are also supported as values with lazy evaluation. Circular dependencies
-are not allowed. 
+A simple calculator allows users do simple operations: add, subtract and multiply values in set of registers. Registers are also supported as values with lazy evaluation.
+Circular dependencies are not allowed. 
 
 ## Run
 

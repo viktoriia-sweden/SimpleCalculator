@@ -22,7 +22,7 @@ namespace SimpleCalculator.Infrastructure.Processors
 		{
 			if (checkedRegisters.Contains(register))
 			{
-				throw new InvalidOperationException($"[Error]. Program cannot evaluate {register} due to cyclic dependancy");
+				throw new InvalidOperationException($"Program cannot evaluate register '{register}' due to circular dependency.");
 			}
 
 			while (_registerRepository.GetCommandsCount(register) > 0)

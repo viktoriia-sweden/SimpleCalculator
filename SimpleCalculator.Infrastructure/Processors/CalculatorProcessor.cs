@@ -26,12 +26,11 @@ namespace SimpleCalculator.Infrastructure.Processors
 			_logger.LogInformation($"Program is opened in \"Console\" mode.");
 			_logger.LogInformation("Please enter a command.");
 
-			while (!_commandResolver.IsQuit)
+			while (Process(_consoleService.Read()))
 			{
-				Process(_consoleService.Read());
 			}
 
-			_logger.LogInformation("Command \"quit\" was called. Exit.");
+			_logger.LogInformation("Exit.");
 		}
 
 		public void ProcessFile(string fileName)
@@ -42,23 +41,33 @@ namespace SimpleCalculator.Infrastructure.Processors
 			using var sr = new StreamReader(fileName);
 
 			string? line;
-			while (!_commandResolver.IsQuit && (line = sr.ReadLine()) != null)
+			while ((line = sr.ReadLine()) != null && Process(line))
 			{
-				Process(line);
 			}
 
-			_logger.LogInformation("The file was read or command \"quit\" was called. Exit.");
+			_logger.LogInformation("Exit.");
 		}
 
-		private void Process(string? line)
+		private bool Process(string? line)
 		{
 			var command = GetCommand(line);
 
 			if (_commandValidator.IsValid(command))
 			{
-				var process = _commandResolver.Process(command!);
-				process.Process(command!);
+				var processor = _commandResolver.Process(command!);
+				try
+				{
+					processor.Process(command!);
+					return !_commandResolver.IsQuit;
+				}
+				catch (Exception ex)
+				{
+					_logger.LogCritical(ex.Message);
+					return false;
+				}
 			}
+
+			return true;
 		}
 
 		private static string[]? GetCommand(string? str) => str?.Trim().Trim('\n').ToLower().Split(" ");
