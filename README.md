@@ -17,7 +17,7 @@ The program has 2 modes: "Console" and "File".
 
 * Register: Any alphanumerical input. Allowed symbols are A-Z, a-z, 0-9.
 * Operation: add, substract, or multiply.
-* Value: Either a long or a register.
+* Value: Either a long or a register. Long can be from -9,223,372,036,854,775,808 to 9,223,372,036,854,775,807, other numbers will be evaludated as register name.
 
 All input is case insensitive.
 
@@ -34,21 +34,21 @@ print <register>
 ```
 
 ### Quit
-Exits the program.
+Exits the program. 
 ```
 quit
 ```
 
-## What you can do
+## Examples
 
-Input
+Example 1. Insensitive case. Operations order.
 ```
 cost add iphone15
-cost add iphone15Pro
 IPHONE15 add 12999
 IPHONE15 multiply 2
 iphone15Pro add 14999
 iphone15Pro multiply 2
+cost add iphone15Pro
 print cost
 IphoneExchange add 1000
 cost subtract iphoneExchange
@@ -63,22 +63,52 @@ Output
 
 ---
 
-The calculator can handle circular dependencies.
-
-Input
+Example 2. "Print" lazy evaluates value "a" based on commands written before the "print". Next commands are taken into account during the next print command.
+The first "print a" check b, b equals 0 therefore "print a" return 0. Then "b" becomes 5 after "add" and "multiply", but it doesn't affect "print a" and it returns 0 again.
+Only after "a add b" "a" becomes 5 and "print a" returns 5.
 ```
-A add B
-B add C
-C add A
-A add 3
-print A
-print B
-print C
-quit
+a add b
+print a
+b add 1
+b multiply 5
+print a
+a add b
+print a
 ```
 Output
 ```
-3
-3
-3
+0
+0
+5
 ```
+
+---
+
+Example 3. Circular dependencies are not allowed. The program returns Error.
+```
+a add b
+b add a
+print a
+
+```
+Output
+```
+Error
+```
+
+---
+
+Example 4. Invalid Operation. Command was not processed.
+```
+a added b
+print a
+
+```
+Output
+```
+Error
+```
+
+---
+
+

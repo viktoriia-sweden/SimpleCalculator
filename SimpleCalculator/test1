@@ -2,4 +2,9 @@ a1 add 15
 a2 subtract -15
 a3 add a2
 a3 add a1
+a3 multiply a4
+a4 add 3
+print a3
+a3 subtract 90
+quit
 print a3

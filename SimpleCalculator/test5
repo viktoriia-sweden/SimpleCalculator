@@ -1,0 +1,3 @@
+a add b
+b add a
+print a
