@@ -36,11 +36,11 @@ namespace SimpleCalculator.Infrastructure.Validators
 			return false;
 		}
 
-		private static bool IsAllowedOperation(string[] args) => args.Length == 3 && Enum.TryParse<Operation>(args[1], true, out var _);
+		private static bool IsAllowedOperation(string[] args) => args.Length == operationCommandArgsCount && Enum.TryParse<Operation>(args[1], true, out var _);
 
 		private static bool IsAllowedCommand(string[] args, out CommandType commandType) => Enum.TryParse(args[0], true, out commandType);
 
-		public static bool IsAlphaNumeric(string str) => !string.IsNullOrEmpty(str) && str.ToCharArray().All(c => char.IsLetter(c) || char.IsNumber(c));
+		private static bool IsAlphaNumeric(string str) => !string.IsNullOrEmpty(str) && str.ToCharArray().All(c => char.IsLetter(c) || char.IsNumber(c));
 
 		private bool CheckCommand(string[] args, CommandType commandType)
 		{
@@ -64,6 +64,8 @@ namespace SimpleCalculator.Infrastructure.Validators
 
 			return true;
 		}
+
+		private const int operationCommandArgsCount = 3;
 
 		// It also can be a config, but for simplisity I put it here 
 		private readonly Dictionary<CommandType, CommandRules> commandRules = new ()

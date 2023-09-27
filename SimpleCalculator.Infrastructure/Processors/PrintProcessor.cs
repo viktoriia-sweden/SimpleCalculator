@@ -18,6 +18,12 @@ namespace SimpleCalculator.Infrastructure.Processors
 
 		private long Calculate(string register)
 		{
+			if (checkedRegisters.Contains(register))
+			{
+				throw new InvalidOperationException();
+			}
+
+			checkedRegisters.Add(register);
 			while (_registerRepository.GetCommandsCount(register) > 0)
 			{
 				var command = _registerRepository.GetCommand(register);
@@ -43,6 +49,8 @@ namespace SimpleCalculator.Infrastructure.Processors
 			Operation.Multiply => registerValue * value,
 			_ => throw new ArgumentOutOfRangeException(nameof(operation), $"Invalid operation: {operation}"),
 		};
+
+		private readonly HashSet<string> checkedRegisters = new ();
 
 		private readonly IRegisterRepository _registerRepository;
 	}

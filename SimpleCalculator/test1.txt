@@ -1,5 +1,5 @@
 a1 add 15
-a2 substract -15
+a2 subtract -15
 a3 add a2
 a3 add a1
 print a3

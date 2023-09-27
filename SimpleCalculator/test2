@@ -1,6 +1,6 @@
 a add 3
 b add 1
-a substract b
+a subtract b
 b multiply 5
 a multiply -5
 print a
