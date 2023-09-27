@@ -3,16 +3,16 @@ using SimpleCalculator.Infrastructure.Repositories;
 
 namespace SimpleCalculator.Infrastructure.Processors
 {
-	public class PrintProcessor
+	public class PrintProcessor : ICommandProcessor
 	{
 		public PrintProcessor(IRegisterRepository registerRepository)
 		{
 			_registerRepository = registerRepository;
 		}
 
-		public void Process(string register)
+		public void Process(string[] command)
 		{
-			var value = Calculate(register);
+			var value = Calculate(command[1]);
 			Console.WriteLine(value);
 		}
 

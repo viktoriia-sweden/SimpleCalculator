@@ -2,25 +2,25 @@
 
 namespace SimpleCalculator.Infrastructure.Services
 {
-	public class CalculatorService : ICalculatorService
+    public class CalculatorService : ICalculatorService
 	{
-		public CalculatorService(ICommandProcessor commandProcessor)
+		public CalculatorService(ICalculatorProcessor processor)
 		{
-			_commandProcessor = commandProcessor;
+			_processor = processor;
 		}
 
 		public void Run(string[] args)
 		{
 			if (args.Length > 0)
 			{
-				_commandProcessor.ProcessFile(args[0]);
+				_processor.ProcessFile(args[0]);
 			}
 			else
 			{
-				_commandProcessor.ProcessConsole();
+				_processor.ProcessConsole();
 			}
 		}
 
-		private readonly ICommandProcessor _commandProcessor;
+		private readonly ICalculatorProcessor _processor;
 	}
 }

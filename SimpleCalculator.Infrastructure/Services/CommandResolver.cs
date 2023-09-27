@@ -13,26 +13,29 @@ namespace SimpleCalculator.Infrastructure.Services
 
 		public bool IsQuit { get; private set; }
 
-		public void Process(string[] args)
+		public ICommandProcessor Process(string[] args)
 		{
 			if (Enum.TryParse<CommandType>(args[0], true, out var commandType))
 			{
-				if (commandType == CommandType.Quit)
-				{
-					IsQuit = true;
-				}
 				if (commandType == CommandType.Print)
 				{
-					var processor = new PrintProcessor(_registerRepository);
-					processor.Process(args[1]);
+					return new PrintProcessor(_registerRepository);
+				}
+				else if (commandType == CommandType.Quit)
+				{
+					IsQuit = true;
+					return new QuitProcessor();
+				}
+				else
+				{
+					throw new ArgumentException($"Invalid command {string.Join(",", args)}");
 				}
 			}
 			else
 			{
 				if (args.Length == 3 && Enum.TryParse<Operation>(args[1], true, out var operation))
 				{
-					var processor = new OperationProcessor(_registerRepository);
-					processor.Process(args[0], operation, args[2]);
+					return new OperationProcessor(_registerRepository);
 				}
 				else
 				{
