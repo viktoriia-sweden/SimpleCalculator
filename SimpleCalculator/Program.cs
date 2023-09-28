@@ -1,5 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Hosting;
 
 using SimpleCalculator.Infrastructure.Processors;
 using SimpleCalculator.Infrastructure.Repositories;
@@ -8,24 +8,23 @@ using SimpleCalculator.Infrastructure.Validators;
 
 namespace SimpleCalculator
 {
-    internal class Program
+	internal class Program
 	{
 		static void Main(string[] args)
 		{
-			var serviceProvider = new ServiceCollection()
-				.AddSingleton<IRegisterRepository, RegisterRepository>()
-				.AddSingleton<ICommandResolver, CommandResolver>()
-				.AddSingleton<ICommandValidator, CommandValidator>()
-				.AddSingleton<ICalculatorService, CalculatorService>()
-				.AddSingleton<ICalculatorProcessor, CalculatorProcessor>()
-				.AddSingleton<IConsoleService, ConsoleService>()
-				.AddLogging((loggingBuilder) => loggingBuilder
-					.SetMinimumLevel(LogLevel.Information)
-					.AddConsole())
-				.BuildServiceProvider();
+			HostApplicationBuilder builder = Host.CreateApplicationBuilder(args);
 
-			var commandService = serviceProvider.GetService<ICalculatorService>();
-			commandService!.Run(args);
+			builder.Services.AddTransient<ICommandResolver, CommandResolver>();
+			builder.Services.AddTransient<ICommandValidator, CommandValidator>();
+			builder.Services.AddTransient<ICalculatorService, CalculatorService>();
+			builder.Services.AddTransient<IConsoleService, ConsoleService>();
+			builder.Services.AddTransient<ICalculatorProcessor, CalculatorProcessor>();
+			builder.Services.AddSingleton<IRegisterRepository, RegisterRepository>();
+
+			using IHost host = builder.Build();
+
+			var service = host.Services.GetRequiredService<ICalculatorService>();
+			service.Run(args);
 		}
 	}
 }
