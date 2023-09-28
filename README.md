@@ -5,15 +5,15 @@ The program can handle circular dependencies. Please, check examples to understa
 ## Run
 
 The program is developed on .NET 6, C#. 
-Users can run the program on Windows via [dotnet commands]: (https://learn.microsoft.com/en-us/dotnet/core/tools/dotnet).
+Users can run the program on Windows via [dotnet commands](https://learn.microsoft.com/en-us/dotnet/core/tools/dotnet).
 If .NET SDK or Runtimes are not installed on Windows, it is necessary to install them before. 
 Useful links:
-[.NET installation]: (https://learn.microsoft.com/en-us/dotnet/core/install/windows?tabs=net70). Users can choose any runtime or sdk, because all of them support Console apps. 
-[dotnet installation]: (https://learn.microsoft.com/en-us/dotnet/core/tools/dotnet-install-script).
+[.NET installation](https://learn.microsoft.com/en-us/dotnet/core/install/windows?tabs=net70). Users can choose any runtime or sdk, because all of them support Console apps. 
+[dotnet installation](https://learn.microsoft.com/en-us/dotnet/core/tools/dotnet-install-script).
 
 When previous steps are done, it is possible to run the application. Please follow those steps:
 
-1. Download [project]: (https://www.dropbox.com/scl/fo/25u6ntel5uwqa4ocd6hqb/h?rlkey=9xol9p7co344u5mwta3kaftn9&dl=0).
+1. Download [project](https://www.dropbox.com/scl/fo/25u6ntel5uwqa4ocd6hqb/h?rlkey=9xol9p7co344u5mwta3kaftn9&dl=0).
 2. In powershell open the folder containing SimpleCalculator.sln.
 3. Run command bellow to build the project. The sucessful output should contain message "Build succeeded. 0 Warning(s) 0 Error(s)".
 ```
@@ -114,7 +114,6 @@ b add c
 a add 5
 b add 3
 print b
-
 ```
 Output
 ```
@@ -125,11 +124,10 @@ Example 4. Invalid Operation. Command was not processed. Program continues to wo
 ```
 a added b
 print a
-
 ```
 Output
 ```
-Logged error.
+0
 ```
 
 
