@@ -29,7 +29,7 @@ namespace SimpleCalculator.Infrastructure.Validators
 					return false;
 				}
 
-				if (!(IsAlphaNumeric(args[2]) || long.TryParse(args[2], out var _)))
+				if (!(IsAlphaNumeric(args[2]) || int.TryParse(args[2], out var _)))
 				{
 					_logger.LogError($"Argument {args[2]} should be alphanumeric register or integer value.");
 					return false;

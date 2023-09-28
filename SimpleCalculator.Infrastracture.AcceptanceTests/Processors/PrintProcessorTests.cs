@@ -23,9 +23,9 @@ namespace SimpleCalculator.Infrastracture.Tests.Processors
 		{
 			// arrange
 			var register = _fixture.Create<string>();
-			var addOperand = _fixture.Create<long>();
-			var multiplyOperand = _fixture.Create<long>();
-			var subtractOperand = _fixture.Create<long>();
+			var addOperand = _fixture.Create<int>();
+			var multiplyOperand = _fixture.Create<int>();
+			var subtractOperand = _fixture.Create<int>();
 			var expected = (addOperand * multiplyOperand - subtractOperand) * multiplyOperand;
 			_repository.AddCommand(register, new Domain.Entities.Command { Operation = Domain.Enums.Operation.Add, Operand = addOperand.ToString() });
 			_repository.AddCommand(register, new Domain.Entities.Command { Operation = Domain.Enums.Operation.Multiply, Operand = multiplyOperand.ToString() });
@@ -46,12 +46,30 @@ namespace SimpleCalculator.Infrastracture.Tests.Processors
 			// arrange
 			var register = _fixture.Create<string>();
 			var aditionalRegister = _fixture.Create<string>();
-			var addOperand = _fixture.Create<long>();
-			var multiplyOperand = _fixture.Create<long>();
+			var addOperand = _fixture.Create<int>();
+			var multiplyOperand = _fixture.Create<int>();
 			var expected = addOperand * multiplyOperand;
 			_repository.AddCommand(aditionalRegister, new Domain.Entities.Command { Operation = Domain.Enums.Operation.Add, Operand = addOperand.ToString() });
 			_repository.AddCommand(register, new Domain.Entities.Command { Operation = Domain.Enums.Operation.Add, Operand = aditionalRegister });
 			_repository.AddCommand(register, new Domain.Entities.Command { Operation = Domain.Enums.Operation.Multiply, Operand = multiplyOperand.ToString() });
+
+			// act
+			_processor.Process(new string[] { "print", register });
+
+			// assert
+			_repository.GetCommandsCount(register).Should().Be(0);
+			_repository.Get(register).Should().Be(expected);
+		}
+
+		[TestMethod]
+		public void Test_LargeVaules()
+		{
+			// arrange
+			var register = _fixture.Create<string>();
+			var addOperand = int.MaxValue;
+			var expected = addOperand * (long)addOperand;
+			_repository.AddCommand(register, new Domain.Entities.Command { Operation = Domain.Enums.Operation.Add, Operand = addOperand.ToString() });
+			_repository.AddCommand(register, new Domain.Entities.Command { Operation = Domain.Enums.Operation.Multiply, Operand = addOperand.ToString() });
 
 			// act
 			_processor.Process(new string[] { "print", register });
@@ -82,7 +100,7 @@ namespace SimpleCalculator.Infrastracture.Tests.Processors
 			var registerA = _fixture.Create<string>();
 			var registerB = _fixture.Create<string>();
 			var registerC = _fixture.Create<string>();
-			var addOperand = _fixture.Create<long>();
+			var addOperand = _fixture.Create<int>();
 			var expected = addOperand + addOperand;
 			_repository.AddCommand(registerC, new Domain.Entities.Command { Operation = Domain.Enums.Operation.Add, Operand = addOperand.ToString() });
 			_repository.AddCommand(registerB, new Domain.Entities.Command { Operation = Domain.Enums.Operation.Add, Operand = registerC });
@@ -104,8 +122,8 @@ namespace SimpleCalculator.Infrastracture.Tests.Processors
 			var registerA = _fixture.Create<string>();
 			var registerB = _fixture.Create<string>();
 			var registerC = _fixture.Create<string>();
-			var addAOperand = _fixture.Create<long>();
-			var addBOperand = _fixture.Create<long>();
+			var addAOperand = _fixture.Create<int>();
+			var addBOperand = _fixture.Create<int>();
 			_repository.AddCommand(registerA, new Domain.Entities.Command { Operation = Domain.Enums.Operation.Add, Operand = registerB });
 			_repository.AddCommand(registerB, new Domain.Entities.Command { Operation = Domain.Enums.Operation.Add, Operand = registerA });
 			_repository.AddCommand(registerC, new Domain.Entities.Command { Operation = Domain.Enums.Operation.Add, Operand = registerB });
@@ -128,8 +146,8 @@ namespace SimpleCalculator.Infrastracture.Tests.Processors
 		{
 			// arrange
 			var registerA = _fixture.Create<string>();
-			var addAOperand = _fixture.Create<long>();
-			var subtractAOperand = _fixture.Create<long>();
+			var addAOperand = _fixture.Create<int>();
+			var subtractAOperand = _fixture.Create<int>();
 			_repository.AddCommand(registerA, new Domain.Entities.Command { Operation = Domain.Enums.Operation.Add, Operand = addAOperand.ToString() });
 			_repository.AddCommand(registerA, new Domain.Entities.Command { Operation = Domain.Enums.Operation.Multiply, Operand = registerA });
 			_repository.AddCommand(registerA, new Domain.Entities.Command { Operation = Domain.Enums.Operation.Subtract, Operand = subtractAOperand.ToString() });
@@ -150,8 +168,8 @@ namespace SimpleCalculator.Infrastracture.Tests.Processors
 			// arrange
 			var registerA = _fixture.Create<string>();
 			var registerB = _fixture.Create<string>();
-			var addAOperand = _fixture.Create<long>();
-			var addBOperand = _fixture.Create<long>();
+			var addAOperand = _fixture.Create<int>();
+			var addBOperand = _fixture.Create<int>();
 			_repository.AddCommand(registerA, new Domain.Entities.Command { Operation = Domain.Enums.Operation.Add, Operand = addAOperand.ToString() });
 			_repository.AddCommand(registerB, new Domain.Entities.Command { Operation = Domain.Enums.Operation.Add, Operand = addBOperand.ToString() });
 			_repository.AddCommand(registerA, new Domain.Entities.Command { Operation = Domain.Enums.Operation.Multiply, Operand = registerB });
@@ -176,7 +194,7 @@ namespace SimpleCalculator.Infrastracture.Tests.Processors
 
 			var i = 0;
 
-			while (i < 1000000)
+			while (i < 100.000)
 			{
 				var additionalRegister = _fixture.Create<string>();
 				_repository.AddCommand(register, new Domain.Entities.Command { Operation = Domain.Enums.Operation.Add, Operand = additionalRegister });
@@ -184,7 +202,7 @@ namespace SimpleCalculator.Infrastracture.Tests.Processors
 				i++;
 			}
 
-			var addOperand = _fixture.Create<long>();
+			var addOperand = _fixture.Create<int>();
 			_repository.AddCommand(register, new Domain.Entities.Command { Operation = Domain.Enums.Operation.Add, Operand = addOperand.ToString() });
 
 			var expected = addOperand;

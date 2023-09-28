@@ -31,7 +31,7 @@ namespace SimpleCalculator.Infrastructure.Processors
 				var command = _registerRepository.GetCommand(register);
 				var registerValue = _registerRepository.Get(register);
 
-				if (long.TryParse(command.Operand, out var operandValue))
+				if (int.TryParse(command.Operand, out var operandValue))
 				{
 					_registerRepository.Save(register, ApplyOperation(registerValue, command.Operation, operandValue));
 				}
@@ -61,7 +61,7 @@ namespace SimpleCalculator.Infrastructure.Processors
 
 		private long GetOperandValue(Command command)
 		{
-			return long.TryParse(command.Operand, out var operandValue) ? operandValue : CalculateWithCircularDependencies(command.Operand);
+			return int.TryParse(command.Operand, out var operandValue) ? operandValue : CalculateWithCircularDependencies(command.Operand);
 		}
 
 		private static long ApplyOperation(long registerValue, Operation operation, long value) => operation switch
