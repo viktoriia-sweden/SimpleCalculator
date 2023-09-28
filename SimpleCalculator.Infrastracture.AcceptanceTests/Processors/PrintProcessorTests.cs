@@ -4,7 +4,6 @@ using SimpleCalculator.Infrastructure.Processors;
 using SimpleCalculator.Infrastructure.Repositories;
 using FluentAssertions;
 using SimpleCalculator.Infrastructure.Services;
-using Microsoft.Win32;
 
 namespace SimpleCalculator.Infrastracture.Tests.Processors
 {
@@ -122,6 +121,80 @@ namespace SimpleCalculator.Infrastracture.Tests.Processors
 			// assert
 			_repository.GetCommandsCount(registerA).Should().Be(0);
 			_repository.Get(registerB).Should().Be(expected);
+		}
+
+		[TestMethod]
+		public void TestLazyEvaluation_CircularDependency_SameRegister()
+		{
+			// arrange
+			var registerA = _fixture.Create<string>();
+			var addAOperand = _fixture.Create<long>();
+			var subtractAOperand = _fixture.Create<long>();
+			_repository.AddCommand(registerA, new Domain.Entities.Command { Operation = Domain.Enums.Operation.Add, Operand = addAOperand.ToString() });
+			_repository.AddCommand(registerA, new Domain.Entities.Command { Operation = Domain.Enums.Operation.Multiply, Operand = registerA });
+			_repository.AddCommand(registerA, new Domain.Entities.Command { Operation = Domain.Enums.Operation.Subtract, Operand = subtractAOperand.ToString() });
+
+			var expected = (addAOperand - subtractAOperand) * (addAOperand - subtractAOperand);
+
+			// act
+			_processor.Process(new string[] { "print", registerA });
+
+			// assert
+			_repository.GetCommandsCount(registerA).Should().Be(0);
+			_repository.Get(registerA).Should().Be(expected);
+		}
+
+		[TestMethod]
+		public void TestLazyEvaluation_CircularDependency_Multiply()
+		{
+			// arrange
+			var registerA = _fixture.Create<string>();
+			var registerB = _fixture.Create<string>();
+			var addAOperand = _fixture.Create<long>();
+			var addBOperand = _fixture.Create<long>();
+			_repository.AddCommand(registerA, new Domain.Entities.Command { Operation = Domain.Enums.Operation.Add, Operand = addAOperand.ToString() });
+			_repository.AddCommand(registerB, new Domain.Entities.Command { Operation = Domain.Enums.Operation.Add, Operand = addBOperand.ToString() });
+			_repository.AddCommand(registerA, new Domain.Entities.Command { Operation = Domain.Enums.Operation.Multiply, Operand = registerB });
+			_repository.AddCommand(registerB, new Domain.Entities.Command { Operation = Domain.Enums.Operation.Multiply, Operand = registerA });
+
+			var expected = addAOperand * addAOperand * addBOperand;
+
+			// act
+			_processor.Process(new string[] { "print", registerA });
+
+			// assert
+			_repository.GetCommandsCount(registerA).Should().Be(0);
+			_repository.Get(registerA).Should().Be(expected);
+		}
+
+		[TestMethod]
+		public void TestLazyEvaluation_ManyDependencies()
+		{
+			// arrange
+			var initialRegister = _fixture.Create<string>();
+			var register = initialRegister;
+
+			var i = 0;
+
+			while (i < 1000000)
+			{
+				var additionalRegister = _fixture.Create<string>();
+				_repository.AddCommand(register, new Domain.Entities.Command { Operation = Domain.Enums.Operation.Add, Operand = additionalRegister });
+				register = additionalRegister;
+				i++;
+			}
+
+			var addOperand = _fixture.Create<long>();
+			_repository.AddCommand(register, new Domain.Entities.Command { Operation = Domain.Enums.Operation.Add, Operand = addOperand.ToString() });
+
+			var expected = addOperand;
+
+			// act
+			_processor.Process(new string[] { "print", initialRegister });
+
+			// assert
+			_repository.GetCommandsCount(initialRegister).Should().Be(0);
+			_repository.Get(initialRegister).Should().Be(expected);
 		}
 
 		private readonly Fixture _fixture;
