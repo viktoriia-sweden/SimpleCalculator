@@ -4,11 +4,8 @@ The program can handle circular dependencies. Please check examples to understan
 
 ## Run
 
-The program is developed on .NET 6, C#. 
-Users can run the program on Windows via [dotnet commands](https://learn.microsoft.com/en-us/dotnet/core/tools/dotnet).
-If .NET SDK or Runtimes are not installed on Windows, it is necessary to install them beforehand. 
+The program is developed on .NET 6, C#. Users can run the program on Windows via [dotnet commands](https://learn.microsoft.com/en-us/dotnet/core/tools/dotnet). If .NET SDK or Runtimes are not installed on Windows, it is necessary to install them beforehand. Useful links:
 
-Useful links:
 1.[.NET installation](https://learn.microsoft.com/en-us/dotnet/core/install/windows?tabs=net70). Users can choose any runtime or sdk, because all of them support Console apps. 
 2.[dotnet installation](https://learn.microsoft.com/en-us/dotnet/core/tools/dotnet-install-script).
 
@@ -34,9 +31,7 @@ dotnet run
 ```
 where "file" is case insensitive.
 
-The program has 2 modes: "Console" and "File". 
-"File" mode is used when a file is provided as an argument. If users enter more than 1 argument, only the 1st will be used. If the file is not found, the program will be opened in "Console" mode.  
-"Console" mode is used when a file is not provided as an argument or not found.
+The program has 2 modes: "Console" and "File". "File" mode is used when a file is provided as an argument. If users enter more than 1 argument, only the 1st will be used. If the file is not found, the program will be opened in "Console" mode. "Console" mode is used when a file is not provided as an argument or not found.
 
 
 ## Commands
@@ -87,9 +82,7 @@ Output
 54996
 ```
 
-Example 2. "Print" lazy evaluates value "a" based on commands written before the "print". Next commands are taken into account during the next print command.
-The first "print a" check b, b equals 0 therefore "print a" return 0. Then "b" becomes 5 after "add" and "multiply", but it doesn't affect "print a" and it returns 0 again.
-Only after "a add b" "a" becomes 5 and "print a" returns 5.
+Example 2. "Print" lazy evaluates value "a" based on commands written before the "print". Next commands are taken into account during the next print command. The first "print a" check b, b equals 0 therefore "print a" return 0. Then "b" becomes 5 after "add" and "multiply", but it doesn't affect "print a" and it returns 0 again. Only after "a add b" "a" becomes 5 and "print a" returns 5.
 ```
 a add b
 print a
@@ -106,11 +99,7 @@ Output
 5
 ```
 
-Example 3. Circular dependencies are allowed. Start with "b add a", "a" is unknown, so "a" evaluation is required. The next command is "a add b", "a" depends on "b" (circular dependencies),
-so the program goes back to "b" evaluation. The next "b" command is "b add c", "c" is unknown, so "c" evaluation is required. The next command is "c add b", "c" depends on "b" 
-(circular dependencies), so the program goes back to "b" evaluation. The next "b" command is "b add 3", therefore "b" becomes 3. Previous "c add b" makes "c" equals 3 and 
-"b add c" makes "b" 6. The program evaluates "a add b", "a" equals 6 as well. The next "a" command is "a add 5" that makes "a" equals 11. After calculating "a", "b add a" can be
-evaluated and after this "b" is 17.
+Example 3. Circular dependencies are allowed. Start with "b add a", "a" is unknown, so "a" evaluation is required. The next command is "a add b", "a" depends on "b" (circular dependencies), so the program goes back to "b" evaluation. The next "b" command is "b add c", "c" is unknown, so "c" evaluation is required. The next command is "c add b", "c" depends on "b" (circular dependencies), so the program goes back to "b" evaluation. The next "b" command is "b add 3", therefore "b" becomes 3. Previous "c add b" makes "c" equals 3 and "b add c" makes "b" 6. The program evaluates "a add b", "a" equals 6 as well. The next "a" command is "a add 5" that makes "a" equals 11. After calculating "a", "b add a" can be evaluated and after this "b" is 17.
 
 ```
 a add b
