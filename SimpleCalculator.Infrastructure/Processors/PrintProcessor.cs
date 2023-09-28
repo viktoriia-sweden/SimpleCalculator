@@ -1,4 +1,5 @@
-﻿using SimpleCalculator.Domain.Enums;
+﻿using SimpleCalculator.Domain.Entities;
+using SimpleCalculator.Domain.Enums;
 using SimpleCalculator.Infrastructure.Repositories;
 using SimpleCalculator.Infrastructure.Services;
 
@@ -14,13 +15,13 @@ namespace SimpleCalculator.Infrastructure.Processors
 
 		public void Process(string[] command)
 		{
-			var value = Calculate(command[1]);
+			var value = CalculateWithCircularDependencies(command[1]);
 			_consoleService.Write(value);
 		}
 
-		private long Calculate(string register)
+		private long CalculateWithoutCircularDependencies(string register)
 		{
-			if (checkedRegisters.Contains(register))
+			if (evaluatingRegisters.Contains(register))
 			{
 				throw new InvalidOperationException($"Program cannot evaluate register '{register}' due to circular dependency.");
 			}
@@ -36,13 +37,31 @@ namespace SimpleCalculator.Infrastructure.Processors
 				}
 				else
 				{
-					checkedRegisters.Add(register);
-					_registerRepository.Save(register, ApplyOperation(registerValue, command.Operation, Calculate(command.Operand)));
+					evaluatingRegisters.Add(register);
+					_registerRepository.Save(register, ApplyOperation(registerValue, command.Operation, CalculateWithoutCircularDependencies(command.Operand)));
 				}
 			}
 
-			checkedRegisters.Remove(register);
+			evaluatingRegisters.Remove(register);
 			return _registerRepository.Get(register);
+		}
+
+		private long CalculateWithCircularDependencies(string register)
+		{
+			while (_registerRepository.GetCommandsCount(register) > 0)
+			{
+				var command = _registerRepository.GetCommand(register);
+				var operandValue = GetOperandValue(command);
+				var registerValue = _registerRepository.Get(register);
+				_registerRepository.Save(register, ApplyOperation(registerValue, command.Operation, operandValue));
+			}
+
+			return _registerRepository.Get(register);
+		}
+
+		private long GetOperandValue(Command command)
+		{
+			return long.TryParse(command.Operand, out var operandValue) ? operandValue : CalculateWithCircularDependencies(command.Operand);
 		}
 
 		private static long ApplyOperation(long registerValue, Operation operation, long value) => operation switch
@@ -53,7 +72,7 @@ namespace SimpleCalculator.Infrastructure.Processors
 			_ => throw new ArgumentOutOfRangeException(nameof(operation), $"Invalid operation: {operation}"),
 		};
 
-		private readonly HashSet<string> checkedRegisters = new ();
+		private readonly HashSet<string> evaluatingRegisters = new ();
 
 		private readonly IRegisterRepository _registerRepository;
 		private readonly IConsoleService _consoleService;

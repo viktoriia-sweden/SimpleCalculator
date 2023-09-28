@@ -73,12 +73,12 @@ namespace SimpleCalculator.Infrastructure.Validators
 
 		private const int operationCommandArgsCount = 3;
 
-		// It also can be a config, but for simplicity I put it here 
 		private readonly Dictionary<CommandType, CommandRules> commandRules = new ()
 		{
 			{CommandType.Quit, new CommandRules { ArgsNumber = 1 }},
 			{CommandType.Print, new CommandRules { ArgsNumber = 2, AlphaNumericArgsRules = new List<int> { 1 } } },
 		};
+
 		private readonly ILogger<CommandValidator> _logger;
 	}
 }
