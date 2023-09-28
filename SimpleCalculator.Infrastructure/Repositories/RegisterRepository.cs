@@ -3,15 +3,15 @@
 namespace SimpleCalculator.Infrastructure.Repositories
 {
 	/// <summary>
-	/// Repository for managing register values and its commands.
+	/// Repository for managing register values and commands.
 	/// </summary>
 	public class RegisterRepository : IRegisterRepository
 	{
 		/// <summary>
-		/// Saves value of register.
+		/// Saves register value.
 		/// </summary>
 		/// <param name="register">Register.</param>
-		/// <param name="value">Register new value.</param>
+		/// <param name="value">New register value.</param>
 		public void Save(string register, long value)
 		{
 			if (!registersInfo.ContainsKey(register))
@@ -33,10 +33,10 @@ namespace SimpleCalculator.Infrastructure.Repositories
 		}
 
 		/// <summary>
-		/// Adds register new command. 
+		/// Adds new register command. 
 		/// </summary>
 		/// <param name="register">Register.</param>
-		/// <param name="command">Register new command.</param>
+		/// <param name="command">New register command.</param>
 		public void AddCommand(string register, Command command)
 		{
 			if (!registersInfo.ContainsKey(register))
@@ -48,17 +48,17 @@ namespace SimpleCalculator.Infrastructure.Repositories
 		}
 
 		/// <summary>
-		/// Gets register next command.
+		/// Gets next register unevaluated command.
 		/// </summary>
 		/// <param name="register">Register</param>
-		/// <returns>Register next commands.</returns>
+		/// <returns>Next register commands.</returns>
 		public Command GetCommand(string register)
 		{
 			return registersInfo[register].Commands.Dequeue();
 		}
 
 		/// <summary>
-		/// Checks register commands count.
+		/// Checks register unevaluated commands count.
 		/// </summary>
 		/// <param name="register">Register.</param>
 		/// <returns>Number of register commands.</returns>

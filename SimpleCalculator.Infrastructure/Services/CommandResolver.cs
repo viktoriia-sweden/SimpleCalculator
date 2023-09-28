@@ -16,7 +16,7 @@ namespace SimpleCalculator.Infrastructure.Services
 		public bool IsQuit { get; private set; }
 
 		/// <summary>
-		/// Identifies arguments and correct processor.
+		/// Identifies arguments and creates processors.
 		/// </summary>
 		/// <param name="args">Command arguments.</param>
 		/// <returns>A new instance of processor.</returns>
@@ -36,7 +36,7 @@ namespace SimpleCalculator.Infrastructure.Services
 				}
 				else
 				{
-					throw new ArgumentException($"Invalid command {string.Join(",", args)}");
+					throw new ArgumentException($"Invalid command {string.Join(" ", args)}");
 				}
 			}
 			else
@@ -49,7 +49,7 @@ namespace SimpleCalculator.Infrastructure.Services
 				}
 				else
 				{
-					throw new ArgumentException($"Invalid command {string.Join(",", args)}");
+					throw new ArgumentException($"Invalid command {string.Join(" ", args)}");
 				}
 			}
 		}

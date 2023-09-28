@@ -13,7 +13,7 @@ namespace SimpleCalculator.Infrastructure.Services
 		}
 
 		/// <summary>
-		/// Runs correct process based on file existence.
+		/// Runs process based on file existence.
 		/// </summary>
 		/// <param name="args">Console arguments.</param>
 		public void Run(string[] args)

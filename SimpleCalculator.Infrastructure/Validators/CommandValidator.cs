@@ -20,7 +20,7 @@ namespace SimpleCalculator.Infrastructure.Validators
 		{
 			if (args == null)
 			{
-				_logger.LogError("Please enter not null command.");
+				_logger.LogError("Empty command is not allowed.");
 				return false;
 			}
 
@@ -30,20 +30,20 @@ namespace SimpleCalculator.Infrastructure.Validators
 			{
 				if (!IsAlphaNumeric(args[0]))
 				{
-					_logger.LogError($"Argument {args[0]} is not alphanumeric.");
+					_logger.LogError($"Argument '{args[0]}' is not alphanumeric.");
 					return false;
 				}
 
 				if (!(IsAlphaNumeric(args[2]) || int.TryParse(args[2], out var _)))
 				{
-					_logger.LogError($"Argument {args[2]} should be alphanumeric register or integer value.");
+					_logger.LogError($"Argument '{args[2]}' should be an alphanumeric register or integer value.");
 					return false;
 				}
 
 				return true;
 			}
 
-			_logger.LogError($"Invalid command {string.Join(",", args)}. Please check README.md file for allowed commands.");
+			_logger.LogError($"Invalid command {string.Join(" ", args)}. Please check the README.md file for allowed commands.");
 			return false;
 		}
 
@@ -58,7 +58,7 @@ namespace SimpleCalculator.Infrastructure.Validators
 		/// </summary>
 		/// <param name="args">Command arguments</param>
 		/// <param name="commandType">Command type.</param>
-		/// <returns>Is non-operational valid.</returns>
+		/// <returns>Is non-operational command valid.</returns>
 		private bool CheckCommand(string[] args, CommandType commandType)
 		{
 			if (CommandsRules.TryGetCommandRules(commandType, out var rules))
@@ -73,7 +73,7 @@ namespace SimpleCalculator.Infrastructure.Validators
 				{
 					if (!IsAlphaNumeric(args[index]))
 					{
-						_logger.LogError($"Argument {args[index]} is not alphanumeric.");
+						_logger.LogError($"Argument '{args[index]}' is not alphanumeric.");
 						return false;
 					}
 				}

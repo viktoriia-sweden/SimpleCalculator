@@ -59,7 +59,7 @@ namespace SimpleCalculator.Infrastructure.Processors
 		/// Calls validators and processors to evaluate commands. 
 		/// </summary>
 		/// <param name="line">Read line.</param>
-		/// <returns>Should process be continued.</returns>
+		/// <returns>Should reading be continued.</returns>
 		private bool Process(string? line)
 		{
 			var command = GetCommand(line);

@@ -14,9 +14,9 @@ namespace SimpleCalculator.Infrastructure.Processors
 		}
 
 		/// <summary>
-		/// Runs register calculations and calls console service to write result to console.
+		/// Runs register calculations and calls console service to write results to the console.
 		/// </summary>
-		/// <param name="command">Print command.</param>
+		/// <param name="command">Command to print.</param>
 		public void Process(string[] command)
 		{
 			var value = CalculateWithCircularDependencies(command[1]);
@@ -42,7 +42,7 @@ namespace SimpleCalculator.Infrastructure.Processors
 		}
 
 		/// <summary>
-		/// Returns new regsiter value or calls CalculateWithCircularDependencies if value is register.
+		/// Returns a new register value or calls CalculateWithCircularDependencies if value is a register.
 		/// </summary>
 		/// <param name="command">Print command.</param>
 		/// <returns>Operand value.</returns>
