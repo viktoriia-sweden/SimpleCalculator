@@ -13,39 +13,21 @@ namespace SimpleCalculator.Infrastructure.Processors
 			_consoleService = consoleService;
 		}
 
+		/// <summary>
+		/// Runs register calculations and calls console service to write result to console.
+		/// </summary>
+		/// <param name="command">Print command.</param>
 		public void Process(string[] command)
 		{
 			var value = CalculateWithCircularDependencies(command[1]);
 			_consoleService.Write(value);
 		}
 
-		private long CalculateWithoutCircularDependencies(string register)
-		{
-			if (evaluatingRegisters.Contains(register))
-			{
-				throw new InvalidOperationException($"Program cannot evaluate register '{register}' due to circular dependency.");
-			}
-
-			while (_registerRepository.GetCommandsCount(register) > 0)
-			{
-				var command = _registerRepository.GetCommand(register);
-				var registerValue = _registerRepository.Get(register);
-
-				if (int.TryParse(command.Operand, out var operandValue))
-				{
-					_registerRepository.Save(register, ApplyOperation(registerValue, command.Operation, operandValue));
-				}
-				else
-				{
-					evaluatingRegisters.Add(register);
-					_registerRepository.Save(register, ApplyOperation(registerValue, command.Operation, CalculateWithoutCircularDependencies(command.Operand)));
-				}
-			}
-
-			evaluatingRegisters.Remove(register);
-			return _registerRepository.Get(register);
-		}
-
+		/// <summary>
+		/// Calculates register value.
+		/// </summary>
+		/// <param name="register">Register.</param>
+		/// <returns>Register value.</returns>
 		private long CalculateWithCircularDependencies(string register)
 		{
 			while (_registerRepository.GetCommandsCount(register) > 0)
@@ -59,6 +41,11 @@ namespace SimpleCalculator.Infrastructure.Processors
 			return _registerRepository.Get(register);
 		}
 
+		/// <summary>
+		/// Returns new regsiter value or calls CalculateWithCircularDependencies if value is register.
+		/// </summary>
+		/// <param name="command">Print command.</param>
+		/// <returns>Operand value.</returns>
 		private long GetOperandValue(Command command)
 		{
 			return int.TryParse(command.Operand, out var operandValue) ? operandValue : CalculateWithCircularDependencies(command.Operand);
@@ -71,8 +58,6 @@ namespace SimpleCalculator.Infrastructure.Processors
 			Operation.Multiply => registerValue * value,
 			_ => throw new ArgumentOutOfRangeException(nameof(operation), $"Invalid operation: {operation}"),
 		};
-
-		private readonly HashSet<string> evaluatingRegisters = new ();
 
 		private readonly IRegisterRepository _registerRepository;
 		private readonly IConsoleService _consoleService;

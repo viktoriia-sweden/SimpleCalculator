@@ -21,6 +21,9 @@ namespace SimpleCalculator.Infrastructure.Processors
 			_logger = logger;
 		}
 
+		/// <summary>
+		/// Reads commands and calls validators and processors to evaluate them.
+		/// </summary>
 		public void ProcessConsole()
 		{
 			_logger.LogInformation($"Program is opened in \"Console\" mode.");
@@ -33,12 +36,16 @@ namespace SimpleCalculator.Infrastructure.Processors
 			_logger.LogInformation("Exit.");
 		}
 
-		public void ProcessFile(string fileName)
+		/// <summary>
+		/// Reads commands from file and calls validators and processors to evaluate them.
+		/// </summary>
+		/// <param name="file">file</param>
+		public void ProcessFile(string file)
 		{
 			_logger.LogInformation($"Program is opened in \"File\" mode.");
 			_logger.LogInformation("Reading from file...");
 
-			using var sr = new StreamReader(fileName);
+			using var sr = new StreamReader(file);
 
 			string? line;
 			while ((line = sr.ReadLine()) != null && Process(line))
@@ -48,6 +55,11 @@ namespace SimpleCalculator.Infrastructure.Processors
 			_logger.LogInformation("Exit.");
 		}
 
+		/// <summary>
+		/// Calls validators and processors to evaluate commands. 
+		/// </summary>
+		/// <param name="line">Read line.</param>
+		/// <returns>Should process be continued.</returns>
 		private bool Process(string? line)
 		{
 			var command = GetCommand(line);

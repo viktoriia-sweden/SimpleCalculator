@@ -12,6 +12,10 @@ namespace SimpleCalculator.Infrastructure.Services
 			_logger = logger;
 		}
 
+		/// <summary>
+		/// Runs correct process based on file existence.
+		/// </summary>
+		/// <param name="args">Console arguments.</param>
 		public void Run(string[] args)
 		{
 			if (args.Length > 0)

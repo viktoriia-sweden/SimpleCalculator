@@ -10,7 +10,11 @@ namespace SimpleCalculator.Infrastructure.Processors
 		{
 			_registerRepository = registerRepository;
 		}
-
+		
+		/// <summary>
+		/// Calls repository to save new command if it is valid.
+		/// </summary>
+		/// <param name="command">Operation command.</param>
 		public void Process(string[] command)
 		{
 			if (CommandsRules.TryGetCommandRules(CommandType.Operation, out var rules)

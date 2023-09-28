@@ -11,6 +11,11 @@ namespace SimpleCalculator.Infrastructure.Validators
 			_logger = logger;
 		}
 
+		/// <summary>
+		/// Validates arguments.
+		/// </summary>
+		/// <param name="args">Command arguments.</param>
+		/// <returns>Is command valid.</returns>
 		public bool IsValid(string[]? args)
 		{
 			if (args == null)
@@ -48,6 +53,12 @@ namespace SimpleCalculator.Infrastructure.Validators
 
 		private static bool IsAlphaNumeric(string str) => !string.IsNullOrEmpty(str) && str.ToCharArray().All(c => char.IsLetter(c) || char.IsNumber(c));
 
+		/// <summary>
+		/// Checkes non-operational commands. 
+		/// </summary>
+		/// <param name="args">Command arguments</param>
+		/// <param name="commandType">Command type.</param>
+		/// <returns>Is non-operational valid.</returns>
 		private bool CheckCommand(string[] args, CommandType commandType)
 		{
 			if (CommandsRules.TryGetCommandRules(commandType, out var rules))
