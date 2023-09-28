@@ -6,8 +6,8 @@ The program can handle circular dependencies. Please check examples to understan
 
 The program is developed on .NET 6, C#. Users can run the program on Windows via [dotnet commands](https://learn.microsoft.com/en-us/dotnet/core/tools/dotnet). If .NET SDK or Runtimes are not installed on Windows, it is necessary to install them beforehand. Useful links:
 
-1.[.NET installation](https://learn.microsoft.com/en-us/dotnet/core/install/windows?tabs=net70). Users can choose any runtime or sdk, because all of them support Console apps. 
-2.[dotnet installation](https://learn.microsoft.com/en-us/dotnet/core/tools/dotnet-install-script).
+1. [.NET installation](https://learn.microsoft.com/en-us/dotnet/core/install/windows?tabs=net70). Users can choose any runtime or sdk, because all of them support Console apps. 
+2. [dotnet installation](https://learn.microsoft.com/en-us/dotnet/core/tools/dotnet-install-script).
 
 When previous steps are done, it is possible to run the application. Please follow these steps:
 
