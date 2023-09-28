@@ -54,7 +54,7 @@ namespace SimpleCalculator.Infrastructure.Validators
 		private static bool IsAlphaNumeric(string str) => !string.IsNullOrEmpty(str) && str.ToCharArray().All(c => char.IsLetter(c) || char.IsNumber(c));
 
 		/// <summary>
-		/// Checkes non-operational commands. 
+		/// Checks non-operational commands. 
 		/// </summary>
 		/// <param name="args">Command arguments</param>
 		/// <param name="commandType">Command type.</param>

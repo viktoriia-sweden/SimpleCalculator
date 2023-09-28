@@ -16,7 +16,7 @@ namespace SimpleCalculator.Infrastructure.Services
 		public bool IsQuit { get; private set; }
 
 		/// <summary>
-		/// Parses arguments and identifies correct processor.
+		/// Identifies arguments and correct processor.
 		/// </summary>
 		/// <param name="args">Command arguments.</param>
 		/// <returns>A new instance of processor.</returns>
