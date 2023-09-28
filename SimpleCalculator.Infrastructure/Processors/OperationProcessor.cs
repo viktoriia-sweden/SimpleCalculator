@@ -13,8 +13,12 @@ namespace SimpleCalculator.Infrastructure.Processors
 
 		public void Process(string[] command)
 		{
-			var operation = Enum.Parse<Operation>(command[1], true);
-			_registerRepository.AddCommand(command[0], new Command { Operation = operation, Operand = command[2] });
+			if (CommandsRules.TryGetCommandRules(CommandType.Operation, out var rules)
+				&& command.Length == rules!.ArgsNumber
+				&& Enum.TryParse<Operation>(command[1], true, out var operation))
+			{
+				_registerRepository.AddCommand(command[0], new Command { Operation = operation, Operand = command[2] });
+			}
 		}
 
 		private readonly IRegisterRepository _registerRepository;

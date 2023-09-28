@@ -14,11 +14,11 @@ namespace SimpleCalculator
 		{
 			HostApplicationBuilder builder = Host.CreateApplicationBuilder(args);
 
-			builder.Services.AddTransient<ICommandResolver, CommandResolver>();
-			builder.Services.AddTransient<ICommandValidator, CommandValidator>();
-			builder.Services.AddTransient<ICalculatorService, CalculatorService>();
-			builder.Services.AddTransient<IConsoleService, ConsoleService>();
-			builder.Services.AddTransient<ICalculatorProcessor, CalculatorProcessor>();
+			builder.Services.AddSingleton<ICommandResolver, CommandResolver>();
+			builder.Services.AddSingleton<ICommandValidator, CommandValidator>();
+			builder.Services.AddSingleton<ICalculatorService, CalculatorService>();
+			builder.Services.AddSingleton<IConsoleService, ConsoleService>();
+			builder.Services.AddSingleton<ICalculatorProcessor, CalculatorProcessor>();
 			builder.Services.AddSingleton<IRegisterRepository, RegisterRepository>();
 
 			using IHost host = builder.Build();

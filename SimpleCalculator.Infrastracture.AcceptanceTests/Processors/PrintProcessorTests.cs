@@ -7,6 +7,7 @@ using SimpleCalculator.Infrastructure.Services;
 
 namespace SimpleCalculator.Infrastracture.Tests.Processors
 {
+	// Example of acceptance tests 
 	[TestClass]
 	public class PrintProcessorTests
 	{

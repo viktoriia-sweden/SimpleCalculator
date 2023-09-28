@@ -4,5 +4,6 @@
 	{
 		Print,
 		Quit,
+		Operation
 	}
 }

@@ -38,11 +38,11 @@ namespace SimpleCalculator.Infrastructure.Validators
 				return true;
 			}
 
-			_logger.LogError($"Invalid command {string.Join(",", args)}. Please check ReadMe file for allowed commands.");
+			_logger.LogError($"Invalid command {string.Join(",", args)}. Please check README.md file for allowed commands.");
 			return false;
 		}
 
-		private static bool IsAllowedOperation(string[] args) => args.Length == operationCommandArgsCount && Enum.TryParse<Operation>(args[1], true, out var _);
+		private static bool IsAllowedOperation(string[] args) => CommandsRules.TryGetCommandRules(CommandType.Operation, out var rules) && args.Length == rules!.ArgsNumber && Enum.TryParse<Operation>(args[1], true, out var _);
 
 		private static bool IsAllowedCommand(string[] args, out CommandType commandType) => Enum.TryParse(args[0], true, out commandType);
 
@@ -50,9 +50,9 @@ namespace SimpleCalculator.Infrastructure.Validators
 
 		private bool CheckCommand(string[] args, CommandType commandType)
 		{
-			if (commandRules.TryGetValue(commandType, out var rules))
+			if (CommandsRules.TryGetCommandRules(commandType, out var rules))
 			{
-				if (rules.ArgsNumber != args.Length)
+				if (rules!.ArgsNumber != args.Length)
 				{
 					_logger.LogError($"Incorrect arguments number for command '{commandType}'.");
 					return false;
@@ -70,14 +70,6 @@ namespace SimpleCalculator.Infrastructure.Validators
 
 			return true;
 		}
-
-		private const int operationCommandArgsCount = 3;
-
-		private readonly Dictionary<CommandType, CommandRules> commandRules = new ()
-		{
-			{CommandType.Quit, new CommandRules { ArgsNumber = 1 }},
-			{CommandType.Print, new CommandRules { ArgsNumber = 2, AlphaNumericArgsRules = new List<int> { 1 } } },
-		};
 
 		private readonly ILogger<CommandValidator> _logger;
 	}

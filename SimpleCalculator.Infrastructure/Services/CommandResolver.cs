@@ -1,4 +1,5 @@
-﻿using SimpleCalculator.Domain.Enums;
+﻿using SimpleCalculator.Domain.Entities;
+using SimpleCalculator.Domain.Enums;
 using SimpleCalculator.Infrastructure.Processors;
 using SimpleCalculator.Infrastructure.Repositories;
 
@@ -34,7 +35,9 @@ namespace SimpleCalculator.Infrastructure.Services
 			}
 			else
 			{
-				if (args.Length == operationCommandArgsCount && Enum.TryParse<Operation>(args[1], true, out var _))
+				if (CommandsRules.TryGetCommandRules(CommandType.Operation, out var rules)
+					&& args.Length == rules!.ArgsNumber
+					&& Enum.TryParse<Operation>(args[1], true, out var _))
 				{
 					return new OperationProcessor(_registerRepository);
 				}
@@ -45,7 +48,6 @@ namespace SimpleCalculator.Infrastructure.Services
 			}
 		}
 
-		private const int operationCommandArgsCount = 3;
 		private readonly IRegisterRepository _registerRepository;
 		private readonly IConsoleService _consoleService;
 	}
